@@ -109,10 +109,12 @@ export const Conversations: React.FC = () => {
       </div>
 
       {/* Main Workspace */}
-      <div className="flex-grow flex overflow-hidden p-6 gap-6">
+      <div className="flex-grow flex flex-col md:flex-row overflow-hidden p-4 sm:p-6 gap-4 sm:gap-6 min-h-0">
         
         {/* Left Panel: Conversations List */}
-        <div className="w-1/3 flex flex-col bg-slate-900/60 border border-slate-850 rounded-2xl overflow-hidden backdrop-blur-sm">
+        <div className={`w-full md:w-1/3 flex flex-col bg-slate-900/60 border border-slate-850 rounded-2xl overflow-hidden backdrop-blur-sm ${
+          selectedId ? 'hidden md:flex' : 'flex'
+        }`}>
           <div className="p-4 border-b border-slate-800/80 bg-slate-900/40 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-indigo-400" />
@@ -125,12 +127,12 @@ export const Conversations: React.FC = () => {
 
           <div className="flex-grow overflow-y-auto divide-y divide-slate-850/40">
             {loadingConversations ? (
-              <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-3">
+              <div className="flex flex-col items-center justify-center h-full py-12 text-slate-500 gap-3">
                 <Loader2 className="w-6 h-6 text-indigo-500 animate-spin" />
                 <span className="text-xs">Loading logs...</span>
               </div>
             ) : conversations.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full text-center p-6">
+              <div className="flex flex-col items-center justify-center h-full text-center p-6 py-12">
                 <Inbox className="w-8 h-8 text-slate-700 mb-2" />
                 <h4 className="text-slate-400 font-semibold text-xs">No conversations logged</h4>
                 <p className="text-[10px] text-slate-500 max-w-xs mt-1">
@@ -167,20 +169,31 @@ export const Conversations: React.FC = () => {
         </div>
 
         {/* Right Panel: Chat Transcript */}
-        <div className="w-2/3 flex flex-col bg-slate-900/60 border border-slate-850 rounded-2xl overflow-hidden backdrop-blur-sm">
+        <div className={`w-full md:w-2/3 flex flex-col bg-slate-900/60 border border-slate-850 rounded-2xl overflow-hidden backdrop-blur-sm ${
+          !selectedId ? 'hidden md:flex' : 'flex'
+        }`}>
           {selectedId ? (
             <>
               {/* Active Conversation Topbar */}
               <div className="p-4 border-b border-slate-800/80 bg-slate-900/40 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-indigo-950/40 border border-indigo-800/40 rounded-lg flex items-center justify-center">
+                  {/* Mobile Back Button */}
+                  <button
+                    onClick={() => setSelectedId(null)}
+                    className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 md:hidden transition-colors"
+                    title="Back to conversations"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+
+                  <div className="w-8 h-8 bg-indigo-950/40 border border-indigo-800/40 rounded-lg flex items-center justify-center shrink-0">
                     <MessageSquare className="w-4 h-4 text-indigo-400" />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-200 text-xs leading-none">
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-slate-200 text-xs leading-none truncate">
                       Conversation Session
                     </h3>
-                    <span className="text-[10px] text-slate-500">ID: {selectedId}</span>
+                    <span className="text-[10px] text-slate-500 block truncate">ID: {selectedId}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -192,9 +205,9 @@ export const Conversations: React.FC = () => {
               </div>
 
               {/* Messages area */}
-              <div className="flex-grow overflow-y-auto p-6 space-y-4">
+              <div className="flex-grow overflow-y-auto p-4 sm:p-6 space-y-4">
                 {loadingMessages ? (
-                  <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-3">
+                  <div className="flex flex-col items-center justify-center h-full text-slate-500 gap-3 py-12">
                     <Loader2 className="w-6 h-6 text-indigo-500 animate-spin" />
                     <span className="text-xs">Loading transcript...</span>
                   </div>
@@ -204,7 +217,7 @@ export const Conversations: React.FC = () => {
                     return (
                       <div
                         key={msg.id}
-                        className={`flex gap-3 max-w-[85%] ${
+                        className={`flex gap-3 max-w-[90%] sm:max-w-[85%] ${
                           isVisitor ? 'ml-auto flex-row-reverse' : 'mr-auto'
                         }`}
                       >
@@ -224,9 +237,9 @@ export const Conversations: React.FC = () => {
                         </div>
 
                         {/* Content bubble */}
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 min-w-0">
                           <div
-                            className={`p-3.5 rounded-2xl text-xs leading-relaxed border ${
+                            className={`p-3.5 rounded-2xl text-xs leading-relaxed border break-words ${
                               isVisitor
                                 ? 'bg-slate-900/80 border-slate-800 text-slate-200 rounded-tr-none'
                                 : 'bg-indigo-950/10 border-indigo-900/30 text-slate-300 rounded-tl-none shadow-lg shadow-indigo-950/5'

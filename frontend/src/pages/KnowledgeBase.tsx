@@ -192,11 +192,11 @@ export const KnowledgeBase: React.FC = () => {
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-3xl -z-10 animate-pulse"></div>
 
       {/* Page Header */}
-      <div className="px-8 py-5 border-b border-slate-800 bg-[#0c1325]/40 flex items-center justify-between shrink-0 select-none">
+      <div className="px-4 sm:px-6 py-4 border-b border-slate-800 bg-[#0c1325]/40 flex items-center justify-between shrink-0 select-none">
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            <Database className="w-6 h-6 text-blue-500" />
-            Knowledge Base
+          <h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            <Database className="w-5 h-5 text-indigo-400" />
+            Knowledge Base RAG Engine
           </h1>
           <p className="text-slate-400 text-xs mt-1">
             Upload source documentation to seed the RAG vector space and test the response output.
@@ -205,11 +205,11 @@ export const KnowledgeBase: React.FC = () => {
       </div>
 
       {/* Main Grid */}
-      <main className="max-w-7xl mx-auto px-6 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
         {/* Left Column: Documents Manager (7 cols) */}
         <div className="lg:col-span-7 space-y-6">
           {/* File Upload Panel */}
-          <div className="bg-slate-900/60 border border-slate-850 rounded-2xl p-6 backdrop-blur-sm shadow-xl">
+          <div className="bg-slate-900/60 border border-slate-850 rounded-2xl p-4 sm:p-6 backdrop-blur-sm shadow-xl">
             <h2 className="font-bold text-slate-100 text-lg mb-4 flex items-center gap-2">
               <UploadCloud className="w-5 h-5 text-indigo-400" />
               Upload Source Document
@@ -217,7 +217,7 @@ export const KnowledgeBase: React.FC = () => {
 
             <div
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed border-slate-800 hover:border-indigo-500/60 rounded-xl p-8 text-center cursor-pointer transition-all bg-slate-950/40 flex flex-col items-center justify-center gap-3 ${
+              className={`border-2 border-dashed border-slate-800 hover:border-indigo-500/60 rounded-xl p-6 sm:p-8 text-center cursor-pointer transition-all bg-slate-950/40 flex flex-col items-center justify-center gap-3 ${
                 uploading ? 'opacity-50 pointer-events-none' : ''
               }`}
             >
@@ -256,7 +256,7 @@ export const KnowledgeBase: React.FC = () => {
           </div>
 
           {/* Documents Directory List */}
-          <div className="bg-slate-900/60 border border-slate-850 rounded-2xl p-6 backdrop-blur-sm shadow-xl">
+          <div className="bg-slate-900/60 border border-slate-850 rounded-2xl p-4 sm:p-6 backdrop-blur-sm shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-bold text-slate-100 text-lg flex items-center gap-2">
                 <FileText className="w-5 h-5 text-indigo-400" />
@@ -287,7 +287,7 @@ export const KnowledgeBase: React.FC = () => {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[500px]">
                   <thead>
                     <tr className="border-b border-slate-850/80 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                       <th className="py-3 px-4">Filename</th>

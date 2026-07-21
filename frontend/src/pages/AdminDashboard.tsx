@@ -52,9 +52,9 @@ export const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 text-slate-100">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 text-slate-100">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-6 gap-4">
         <div>
           <h1 className="text-2xl font-extrabold flex items-center gap-2.5 text-white tracking-tight">
             <ShieldAlert className="w-7 h-7 text-indigo-500" />
@@ -67,9 +67,9 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-          <div className="p-3 bg-blue-600/10 border border-blue-500/20 rounded-xl text-blue-400">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex items-center gap-4">
+          <div className="p-3 bg-blue-600/10 border border-blue-500/20 rounded-xl text-blue-400 shrink-0">
             <Building2 className="w-6 h-6" />
           </div>
           <div>
@@ -78,8 +78,8 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-          <div className="p-3 bg-emerald-600/10 border border-emerald-500/20 rounded-xl text-emerald-400">
+        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex items-center gap-4">
+          <div className="p-3 bg-emerald-600/10 border border-emerald-500/20 rounded-xl text-emerald-400 shrink-0">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -88,8 +88,8 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-          <div className="p-3 bg-indigo-600/10 border border-indigo-500/20 rounded-xl text-indigo-400">
+        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex items-center gap-4">
+          <div className="p-3 bg-indigo-600/10 border border-indigo-500/20 rounded-xl text-indigo-400 shrink-0">
             <FileText className="w-6 h-6" />
           </div>
           <div>
@@ -98,8 +98,8 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl flex items-center gap-4">
-          <div className="p-3 bg-purple-600/10 border border-purple-500/20 rounded-xl text-purple-400">
+        <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl flex items-center gap-4">
+          <div className="p-3 bg-purple-600/10 border border-purple-500/20 rounded-xl text-purple-400 shrink-0">
             <Ticket className="w-6 h-6" />
           </div>
           <div>
@@ -110,14 +110,14 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Multi-Tenant Companies Table */}
-      <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+      <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl space-y-4">
         <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800/80 pb-3">
           <Building2 className="w-4 h-4 text-blue-400" />
           Registered Company Tenants
         </h3>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[550px]">
             <thead>
               <tr className="border-b border-slate-800 text-slate-500 uppercase font-bold text-[10px]">
                 <th className="py-3 px-4">Company Name</th>
@@ -149,14 +149,14 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Audit Logs */}
-      <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+      <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl space-y-4">
         <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800/80 pb-3">
           <Lock className="w-4 h-4 text-indigo-400" />
           Security Audit Trail Logs
         </h3>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[550px]">
             <thead>
               <tr className="border-b border-slate-800 text-slate-500 uppercase font-bold text-[10px]">
                 <th className="py-3 px-4">Action</th>

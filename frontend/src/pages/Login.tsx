@@ -51,12 +51,12 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b19] text-slate-100 flex flex-col md:flex-row relative overflow-hidden select-none">
+    <div className="min-h-screen bg-[#070b19] text-slate-100 flex flex-col lg:flex-row relative overflow-hidden select-none">
       {/* Decorative background lights */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-600/5 rounded-full blur-3xl -z-10"></div>
       
       {/* Left side: Login Form */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-16 lg:px-24 py-12 relative z-10">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 sm:px-10 lg:px-20 py-8 sm:py-12 relative z-10">
         <div className="max-w-md w-full mx-auto">
           {/* Logo Section */}
           <div className="flex items-center gap-3 mb-10">
@@ -184,7 +184,7 @@ export const Login: React.FC = () => {
       </div>
 
       {/* Right side: Illustration & Branding */}
-      <div className="hidden md:flex w-1/2 bg-[#0c1325]/45 border-l border-slate-800/80 items-center justify-center relative p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-[#0c1325]/45 border-l border-slate-800/80 items-center justify-center relative p-12">
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-blue-600/5 rounded-full blur-3xl -z-10"></div>
         <div className="max-w-lg text-center space-y-8 flex flex-col items-center">
           {/* Detailed SVG workspace illustration */}

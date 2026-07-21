@@ -333,10 +333,10 @@ export const Home: React.FC = () => {
 
   /* AUTHENTICATED DASHBOARD VIEW */
   return (
-    <div className="flex-grow p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
+    <div className="flex-grow p-4 sm:p-6 lg:p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
       
       {/* Dashboard Top Header */}
-      <div className="flex items-center justify-between pb-5 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">Dashboard</h1>
           <p className="text-slate-400 text-xs mt-1">
@@ -346,7 +346,7 @@ export const Home: React.FC = () => {
 
         {/* User profile widget top right */}
         <div className="flex items-center gap-3">
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <span className="block text-sm font-semibold text-white leading-tight">
               {company.name} Owner
             </span>
@@ -354,7 +354,7 @@ export const Home: React.FC = () => {
               Administrator
             </span>
           </div>
-          <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/10">
+          <div className="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/10 shrink-0">
             {company.name.substring(0, 2).toUpperCase()}
           </div>
         </div>
@@ -362,7 +362,7 @@ export const Home: React.FC = () => {
 
       {/* Stats Cards Section */}
       {loadingStats ? (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {Array.from({ length: 4 }).map((_, idx) => (
             <div key={idx} className="bg-[#0c1325]/50 border border-slate-800 p-6 rounded-2xl h-32 animate-pulse flex flex-col justify-between">
               <div className="h-4 bg-slate-800 rounded w-2/3"></div>
@@ -372,7 +372,7 @@ export const Home: React.FC = () => {
           ))}
         </div>
       ) : stats ? (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Total tickets */}
           <div className="bg-[#0c1325]/60 border border-slate-850 p-6 rounded-2xl flex flex-col justify-between shadow-lg shadow-black/5 relative overflow-hidden group hover:border-slate-800/80 transition-all">
             <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Total Tickets</span>
@@ -420,7 +420,7 @@ export const Home: React.FC = () => {
       ) : null}
 
       {/* Recent Tickets Section */}
-      <div className="bg-[#0c1325]/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-sm shadow-xl flex flex-col gap-5">
+      <div className="bg-[#0c1325]/60 border border-slate-800 rounded-2xl p-4 sm:p-6 backdrop-blur-sm shadow-xl flex flex-col gap-5">
         <div className="flex items-center justify-between border-b border-slate-850 pb-4">
           <h2 className="font-bold text-slate-200 text-sm">Recent Tickets</h2>
         </div>
@@ -440,7 +440,7 @@ export const Home: React.FC = () => {
           </div>
         ) : stats ? (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[650px]">
               <thead>
                 <tr className="border-b border-slate-850/80 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                   <th className="py-3 px-4">Ticket ID</th>

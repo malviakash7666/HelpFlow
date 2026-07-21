@@ -334,9 +334,9 @@ export const Tickets: React.FC = () => {
       
       {/* 1. TICKETS LIST VIEW */}
       {!selectedTicket && (
-        <div className="p-8 flex flex-col gap-6 flex-grow">
+        <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-6 flex-grow">
           {/* Header */}
-          <div className="flex items-center justify-between pb-5 border-b border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-4">
             <div>
               <h1 className="text-2xl font-bold tracking-tight text-white">All Tickets</h1>
               <p className="text-slate-400 text-xs mt-1">
@@ -346,7 +346,7 @@ export const Tickets: React.FC = () => {
             
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5 shadow-md shadow-blue-600/10 cursor-pointer"
+              className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/10 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4" />
               New Ticket
@@ -354,8 +354,8 @@ export const Tickets: React.FC = () => {
           </div>
 
           {/* Control Bar (Search, Status Filter, Priority Filter) */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="relative w-80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="relative w-full sm:w-80">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
                 <Search className="w-4 h-4" />
               </span>
@@ -371,7 +371,7 @@ export const Tickets: React.FC = () => {
               />
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full sm:w-auto">
               {/* Status filter */}
               <select
                 value={statusFilter}
@@ -379,7 +379,7 @@ export const Tickets: React.FC = () => {
                   setStatusFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="bg-[#0d1527] border border-slate-800 text-slate-350 text-xs px-3 py-2.5 rounded-xl cursor-pointer outline-none focus:border-blue-500"
+                className="w-1/2 sm:w-auto bg-[#0d1527] border border-slate-800 text-slate-350 text-xs px-3 py-2.5 rounded-xl cursor-pointer outline-none focus:border-blue-500"
               >
                 <option value="ALL">All Status</option>
                 <option value="OPEN">Open</option>
@@ -396,7 +396,7 @@ export const Tickets: React.FC = () => {
                   setPriorityFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="bg-[#0d1527] border border-slate-800 text-slate-350 text-xs px-3 py-2.5 rounded-xl cursor-pointer outline-none focus:border-blue-500"
+                className="w-1/2 sm:w-auto bg-[#0d1527] border border-slate-800 text-slate-350 text-xs px-3 py-2.5 rounded-xl cursor-pointer outline-none focus:border-blue-500"
               >
                 <option value="ALL">All Priority</option>
                 <option value="LOW">Low</option>
@@ -424,7 +424,7 @@ export const Tickets: React.FC = () => {
                   </p>
                 </div>
               ) : (
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse min-w-[700px]">
                   <thead>
                     <tr className="border-b border-slate-850/80 bg-slate-900/10 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                       <th className="py-4 px-6">Ticket ID</th>

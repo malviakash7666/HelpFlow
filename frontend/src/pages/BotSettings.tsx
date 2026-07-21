@@ -121,7 +121,7 @@ export const BotSettings: React.FC = () => {
   if (!config) return null;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto space-y-8 text-slate-100">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6 sm:space-y-8 text-slate-100">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
         <div>
@@ -137,18 +137,18 @@ export const BotSettings: React.FC = () => {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20 transition-all flex items-center gap-2 shrink-0 disabled:opacity-50 cursor-pointer"
+          className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 cursor-pointer"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           Save Changes
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         {/* Left 2 Columns: Persona & Model Parameters */}
         <div className="lg:col-span-2 space-y-6">
           {/* Persona Card */}
-          <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-6 space-y-5 shadow-xl">
+          <div className="bg-[#0c1325] border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-5 shadow-xl">
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2 border-b border-slate-800/80 pb-3">
               <Bot className="w-4 h-4 text-blue-400" />
               Bot Persona & Appearance

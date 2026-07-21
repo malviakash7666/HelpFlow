@@ -71,9 +71,9 @@ export const Customers: React.FC = () => {
   const currentCustomers = filteredCustomers.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="flex-grow p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
+    <div className="flex-grow p-4 sm:p-6 lg:p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between pb-5 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
             <Users className="w-6 h-6 text-blue-500" />
@@ -88,7 +88,7 @@ export const Customers: React.FC = () => {
       {/* Control bar */}
       <div className="flex items-center justify-between gap-4">
         {/* Search Input */}
-        <div className="relative w-80">
+        <div className="relative w-full sm:w-80">
           <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
             <Search className="w-4 h-4" />
           </span>
@@ -122,7 +122,7 @@ export const Customers: React.FC = () => {
               </p>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[650px]">
               <thead>
                 <tr className="border-b border-slate-800/80 bg-slate-900/10 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                   <th className="py-4 px-6">Customer</th>

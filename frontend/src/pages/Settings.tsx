@@ -125,9 +125,9 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div className="flex-grow p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
+    <div className="flex-grow p-4 sm:p-6 lg:p-8 bg-[#0a0f1d] min-h-screen text-slate-100 flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center justify-between pb-5 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
             <SettingsIcon className="w-6 h-6 text-blue-500" />
@@ -140,12 +140,12 @@ export const Settings: React.FC = () => {
       </div>
 
       {/* Settings Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8 items-start">
         {/* Left Side: Tabs Navigation */}
-        <div className="bg-[#0c1325]/50 border border-slate-800 rounded-2xl p-4 flex flex-col gap-1.5">
+        <div className="bg-[#0c1325]/50 border border-slate-800 rounded-2xl p-2 sm:p-4 flex flex-row lg:flex-col gap-1.5 overflow-x-auto">
           <button
             onClick={() => setActiveTab('general')}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide cursor-pointer transition-all ${
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-semibold tracking-wide cursor-pointer transition-all whitespace-nowrap ${
               activeTab === 'general'
                 ? 'bg-blue-600/10 border border-blue-500/30 text-blue-400'
                 : 'border border-transparent text-slate-400 hover:text-white hover:bg-slate-850/40'

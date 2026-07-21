@@ -67,12 +67,12 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center items-center py-12 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center items-center py-6 sm:py-12 px-3 sm:px-6 relative overflow-hidden">
       {/* Background neon blobs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl -z-10 animate-pulse"></div>
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl -z-10 animate-pulse delay-700"></div>
 
-      <div className="w-full max-w-2xl bg-slate-900/60 border border-slate-800 rounded-2xl p-8 backdrop-blur-xl shadow-2xl">
+      <div className="w-full max-w-2xl bg-slate-900/60 border border-slate-800 rounded-2xl p-4 sm:p-8 backdrop-blur-xl shadow-2xl">
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 bg-gradient-to-tr from-indigo-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 mb-3">
             <UserPlus className="w-6 h-6 text-white" />
