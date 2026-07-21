@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../../database/models/index.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.js";
+import { sendPasswordResetEmail } from "../../utils/email.service.js";
 
 const { Company, User } = db;
 
@@ -460,6 +461,156 @@ export const updateCompanyProfile = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal server error while updating profile.",
+      data: null,
+    });
+  }
+};
+
+// In-memory token storage for password reset tokens
+const resetTokenStore = new Map();
+
+/**
+ * @desc    Request password reset token
+ * @route   POST /api/company/forgot-password
+ * @access  Public
+ */
+export const forgotPasswordCompany = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email address is required.",
+        data: null,
+      });
+    }
+
+    const emailLower = email.trim().toLowerCase();
+
+    // Check if account exists in User or Company table
+    const user = await User.findOne({ where: { email: emailLower } });
+    const company = await Company.findOne({ where: { email: emailLower } });
+
+    if (!user && !company) {
+      return res.status(200).json({
+        success: true,
+        message: "If an account exists for this email, reset instructions have been generated.",
+        data: { resetToken: null },
+      });
+    }
+
+    // Generate a 6-digit numeric reset token
+    const token = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes validity
+
+    resetTokenStore.set(emailLower, { token, expiresAt });
+
+    // Send email using Nodemailer service
+    await sendPasswordResetEmail(emailLower, token);
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset code sent to your email. Enter the 6-digit verification code below to set a new password.",
+      data: null,
+    });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error during password reset request.",
+      data: null,
+    });
+  }
+};
+
+/**
+ * @desc    Reset password using reset token
+ * @route   POST /api/company/reset-password
+ * @access  Public
+ */
+export const resetPasswordCompany = async (req, res) => {
+  try {
+    const { email, token, newPassword } = req.body;
+
+    if (!email || !token || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Email, reset token, and new password are required.",
+        data: null,
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "New password must be at least 6 characters long.",
+        data: null,
+      });
+    }
+
+    const emailLower = email.trim().toLowerCase();
+    const storedRecord = resetTokenStore.get(emailLower);
+
+    if (!storedRecord || storedRecord.token !== token.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid or expired reset token. Please request a new token.",
+        data: null,
+      });
+    }
+
+    if (Date.now() > storedRecord.expiresAt) {
+      resetTokenStore.delete(emailLower);
+      return res.status(400).json({
+        success: false,
+        message: "Reset token has expired. Please request a new token.",
+        data: null,
+      });
+    }
+
+    // Hash new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update in User and/or Company tables
+    let updated = false;
+
+    const user = await User.findOne({ where: { email: emailLower } });
+    if (user) {
+      user.password = hashedPassword;
+      await user.save();
+      updated = true;
+    }
+
+    const company = await Company.findOne({ where: { email: emailLower } });
+    if (company) {
+      company.password = hashedPassword;
+      await company.save();
+      updated = true;
+    }
+
+    // Clear reset token
+    resetTokenStore.delete(emailLower);
+
+    if (!updated) {
+      return res.status(404).json({
+        success: false,
+        message: "Account not found for this email address.",
+        data: null,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Password updated successfully. You can now log in with your new password.",
+      data: null,
+    });
+  } catch (error) {
+    console.error("Reset Password Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while resetting password.",
       data: null,
     });
   }

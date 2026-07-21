@@ -149,9 +149,9 @@ export const Login: React.FC = () => {
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#" className="text-blue-550 hover:underline">
+              <Link to="/forgot-password" className="text-blue-550 hover:underline">
                 Forgot Password?
-              </a>
+              </Link>
             </div>
 
             <button

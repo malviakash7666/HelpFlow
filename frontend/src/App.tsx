@@ -5,6 +5,7 @@ import { ToastProvider } from './context/ToastContext';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { ForgotPassword } from './pages/ForgotPassword';
 import { KnowledgeBase } from './pages/KnowledgeBase';
 import { Conversations } from './pages/Conversations';
 import { Tickets } from './pages/Tickets';
@@ -42,6 +43,7 @@ const AppContent: React.FC = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       
       {/* Protected Console Views with Left Navigation Sidebar */}
       <Route path="/" element={<AuthenticatedLayout><Home /></AuthenticatedLayout>} />

@@ -6,6 +6,8 @@ import {
   refreshAccessToken,
   getCompanyProfile,
   updateCompanyProfile,
+  forgotPasswordCompany,
+  resetPasswordCompany,
 } from "./company.controller.js";
 import { authMiddleware } from "../../middleware/auth.middleware.js";
 
@@ -18,6 +20,8 @@ router.post("/register", registerCompany);
 router.post("/login", loginCompany);
 router.post("/logout", logoutCompany);
 router.post("/refresh-token", refreshAccessToken);
+router.post("/forgot-password", forgotPasswordCompany);
+router.post("/reset-password", resetPasswordCompany);
 
 /**
  * Protected routes (require valid JWT Access Token)

@@ -91,5 +91,21 @@ export const authService = {
   async updateProfile(data: Partial<CompanyRegisterInput>): Promise<ProfileResponse> {
     const response = await apiClient.put<ProfileResponse>('/api/company/profile', data);
     return response.data;
+  },
+
+  /**
+   * Request password reset token
+   */
+  async forgotPassword(email: string): Promise<{ success: boolean; message: string; data: { resetToken?: string } }> {
+    const response = await apiClient.post('/api/company/forgot-password', { email });
+    return response.data;
+  },
+
+  /**
+   * Reset password with token
+   */
+  async resetPassword(data: { email: string; token: string; newPassword: string }): Promise<{ success: boolean; message: string }> {
+    const response = await apiClient.post('/api/company/reset-password', data);
+    return response.data;
   }
 };
