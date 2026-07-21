@@ -1,0 +1,38 @@
+I want to build a production-grade AI Customer Support Automation SaaS, not just a CRUD project.
+
+My goal is to learn and use real industry technologies like:
+
+- Node.js + Express + TypeScript
+- PostgreSQL 
+- Redis
+- BullMQ
+- Background Workers
+- Cron Jobs
+- Docker & Docker Compose
+- AI Integration (OpenAI/Gemini)
+- RAG (Retrieval-Augmented Generation)
+- Vector Database
+- WebSockets (Socket.io)
+- AWS Deployment
+- CI/CD
+- Monitoring & Logging
+- Email Automation
+- Multi-Tenant SaaS Architecture
+
+The project should solve a real business problem.
+
+Companies should be able to:
+
+- Create an account
+- Add team members
+- Install a chat widget on their website
+- Upload PDFs, FAQs, and website URLs as a knowledge base
+- Let AI answer customer questions
+- Transfer chats to human agents when needed
+- Manage tickets
+- View analytics
+- Receive automated reports
+
+I don't want to copy an existing platform. I want to understand the architecture deeply and build everything step by step like a real software engineer, focusing on scalability, clean architecture, background processing, and production-ready backend development.
+
+The goal is to build a portfolio project that significantly increases my chances of getting a backend/software engineering job.

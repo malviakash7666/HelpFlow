@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-bg: var(--bg-color);
+  --color-brand-text: var(--text-color);
+  --color-brand-border: var(--border-color);
+  --color-brand-card: var(--card-bg);
+  --color-brand-sidebar: var(--sidebar-bg);
+  --color-brand-input: var(--input-bg);
+  --color-brand-button: var(--button-bg);
+}
+
+:root {
+  --bg-color: #0a0f1d;
+  --text-color: #f1f5f9;
+  --border-color: #1e293b;
+  --card-bg: #0c1325;
+  --sidebar-bg: #060e1d;
+  --input-bg: #0d1527;
+  --button-bg: #0c1325;
+}
+
+html.dark {
+  --bg-color: #0a0f1d;
+  --text-color: #f1f5f9;
+  --border-color: #1e293b;
+  --card-bg: #0c1325;
+  --sidebar-bg: #060e1d;
+  --input-bg: #0d1527;
+  --button-bg: #0c1325;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
