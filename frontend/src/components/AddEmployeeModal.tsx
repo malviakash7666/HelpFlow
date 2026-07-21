@@ -45,7 +45,7 @@ export const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
     } catch (err: any) {
       console.error('Error adding employee:', err);
       setError(
-        err.response?.data?.message || 
+        err.response?.data?.message ||
         'An error occurred while adding the employee.'
       );
     } finally {
@@ -65,7 +65,7 @@ export const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
     // Reset form states
     setName('');
     setEmail('');
-    setRole('SUPPORT_AGENT');
+    ;
     setError(null);
     setTempPassword(null);
     setCopied(false);
@@ -75,7 +75,7 @@ export const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
       <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-        
+
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
           <h3 className="text-lg font-semibold text-slate-100 flex items-center gap-2">
@@ -105,7 +105,7 @@ export const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
               <div className="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 text-emerald-200 text-sm">
                 Employee added successfully! Provide the details below to the team member.
               </div>
-              
+
               <div className="bg-slate-950 rounded-xl p-5 border border-slate-800 space-y-3">
                 <div>
                   <span className="block text-xs text-slate-500 uppercase tracking-wider font-semibold">
