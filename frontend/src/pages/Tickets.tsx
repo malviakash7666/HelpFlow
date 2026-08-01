@@ -542,7 +542,7 @@ export const Tickets: React.FC = () => {
       {selectedTicket && (
         <div className="flex flex-col h-screen overflow-hidden">
           {/* Header row */}
-          <div className="px-6 py-4 border-b border-slate-800 bg-[#0c1325]/40 flex items-center justify-between shrink-0">
+          <div className="px-6 py-4 border-b border-slate-800 bg-[#0c1325]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shrink-0">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => {
@@ -805,41 +805,61 @@ export const Tickets: React.FC = () => {
                       This ticket was marked as RESOLVED on {new Date(selectedTicket.updatedAt).toLocaleDateString()}
                     </div>
                   ) : (
-                    <form onSubmit={handleSendReply} className="p-4 bg-[#080d1a]/80 border-t border-slate-800 flex gap-2 shrink-0">
-                      <button
-                        type="button"
-                        className="p-3 bg-[#0d1527] border border-slate-850 hover:border-slate-800 text-slate-400 hover:text-slate-200 rounded-xl transition-all cursor-pointer shrink-0"
-                        title="Attach documentation reference"
-                      >
-                        <Paperclip className="w-4 h-4" />
-                      </button>
-                      
-                      <input
-                        type="text"
-                        value={replyText}
-                        onChange={(e) => setReplyText(e.target.value)}
-                        placeholder={
-                          selectedTicket.assignedEmployeeId
-                            ? "Type your response..."
-                            : "Select an assignee first to send a reply..."
-                        }
-                        disabled={!selectedTicket.assignedEmployeeId || sendingReply}
-                        className="flex-grow bg-[#0c1226] border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3 text-xs outline-none text-slate-250 placeholder-slate-650 transition-all disabled:opacity-50"
-                      />
-                      
-                      <button
-                        type="submit"
-                        disabled={!selectedTicket.assignedEmployeeId || !replyText.trim() || sendingReply}
-                        className="px-5 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-all shadow-md shadow-blue-600/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 shrink-0 animate-none"
-                      >
-                        {sendingReply ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          <Send className="w-4 h-4" />
-                        )}
-                        Send
-                      </button>
-                    </form>
+                    <div className="flex flex-col border-t border-slate-800 bg-[#080d1a]/80 shrink-0">
+                      {!selectedTicket.assignedEmployeeId && (
+                        <div className="px-6 py-2 bg-blue-950/20 border-b border-slate-800/60 flex items-center justify-between text-[11px] text-blue-400">
+                          <span>This ticket is currently unassigned. Assign it to yourself to start replying.</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (company?.userId) {
+                                handleAssignTicket(company.userId);
+                              } else {
+                                toast.error("Could not resolve your user ID. Try using the dropdown or reloading.");
+                              }
+                            }}
+                            className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg cursor-pointer transition-all active:scale-95 text-[10px]"
+                          >
+                            Assign to Me
+                          </button>
+                        </div>
+                      )}
+                      <form onSubmit={handleSendReply} className="p-4 flex gap-2 w-full">
+                        <button
+                          type="button"
+                          className="p-3 bg-[#0d1527] border border-slate-850 hover:border-slate-800 text-slate-400 hover:text-slate-200 rounded-xl transition-all cursor-pointer shrink-0"
+                          title="Attach documentation reference"
+                        >
+                          <Paperclip className="w-4 h-4" />
+                        </button>
+                        
+                        <input
+                          type="text"
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                          placeholder={
+                            selectedTicket.assignedEmployeeId
+                              ? "Type your response..."
+                              : "Select an assignee first to send a reply..."
+                          }
+                          disabled={!selectedTicket.assignedEmployeeId || sendingReply}
+                          className="flex-grow bg-[#0c1226] border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3 text-xs outline-none text-slate-250 placeholder-slate-650 transition-all disabled:opacity-50"
+                        />
+                        
+                        <button
+                          type="submit"
+                          disabled={!selectedTicket.assignedEmployeeId || !replyText.trim() || sendingReply}
+                          className="px-5 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-slate-800 text-white text-xs font-semibold rounded-xl transition-all shadow-md shadow-blue-600/10 flex items-center justify-center gap-1.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 shrink-0 animate-none"
+                        >
+                          {sendingReply ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Send className="w-4 h-4" />
+                          )}
+                          Send
+                        </button>
+                      </form>
+                    </div>
                   )}
                 </>
               ) : (

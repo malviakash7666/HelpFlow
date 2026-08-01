@@ -386,20 +386,43 @@ export const getCompanyProfile = async (req, res) => {
   try {
     const companyData = formatCompanyResponse(req.company);
     let userRole = "OWNER";
+    let userName = req.company.name + " Owner";
+    let userId = null;
 
     const authHeader = req.headers.authorization;
+    let token = null;
+
     if (authHeader && authHeader.startsWith("Bearer ")) {
-      const token = authHeader.split(" ")[1];
+      token = authHeader.split(" ")[1];
+    } else if (req.cookies?.accessToken) {
+      token = req.cookies.accessToken;
+    }
+
+    if (token) {
       try {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = await User.findByPk(decoded.id);
         if (user) {
           userRole = user.role;
+          userName = user.name;
+          userId = user.id;
         }
       } catch (e) {}
     }
 
+    if (!userId) {
+      const ownerUser = await User.findOne({
+        where: { companyId: req.company.id, role: "OWNER" }
+      });
+      if (ownerUser) {
+        userId = ownerUser.id;
+        userName = ownerUser.name;
+      }
+    }
+
     companyData.userRole = userRole;
+    companyData.userName = userName;
+    companyData.userId = userId;
 
     return res.status(200).json({
       success: true,
