@@ -18,11 +18,20 @@ cloudinary.config({
  */
 export const uploadToCloudinary = async (localFilePath, originalName) => {
   try {
+    const configCloudName = cloudinary.config().cloud_name;
+    const configApiKey = cloudinary.config().api_key;
+    const configApiSecret = cloudinary.config().api_secret;
+
+    console.log(`[Cloudinary Config] Active Cloud Name: "${configCloudName}"`);
+    console.log(`[Cloudinary Config] Active API Key: "${configApiKey ? configApiKey.substring(0, 4) + '...' + configApiKey.substring(configApiKey.length - 4) : 'undefined'}"`);
+    console.log(`[Cloudinary Config] Active API Secret length: ${configApiSecret ? configApiSecret.length : 0}`);
+
     if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      process.env.CLOUDINARY_CLOUD_NAME === 'your_cloudinary_cloud_name_here'
+      !configCloudName ||
+      !configApiKey ||
+      !configApiSecret
     ) {
-      throw new Error("Cloudinary credentials are not configured in the .env file yet.");
+      throw new Error("Cloudinary credentials are not fully configured in environment.");
     }
 
     const uploadResult = await cloudinary.uploader.upload(localFilePath, {
