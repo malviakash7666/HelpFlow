@@ -21,8 +21,8 @@ const formatCompanyResponse = (company) => {
 const getCookieOptions = () => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  // In development, 'lax' is preferred for localhost cross-port cookie transmission.
-  sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+  // In development, 'lax' is preferred for localhost cross-port cookie transmission. SameSite=None is required for cross-domain cookies in production.
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 });
 
@@ -267,12 +267,12 @@ export const logoutCompany = async (req, res) => {
     res.clearCookie("accessToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     return res.status(200).json({
