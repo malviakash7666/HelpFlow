@@ -1,7 +1,7 @@
 import { queryRAG } from "../knowledgeBase/knowledgeBase.service.js";
 import db from "../../database/models/index.js";
 
-const { Widget, Conversation, ChatMessage, Ticket, User, Company } = db;
+const { Widget, Conversation, ChatMessage, Ticket, User, Company, Bot } = db;
 
 /**
  * Assign a new support ticket to the active employee with the least load.
@@ -39,7 +39,7 @@ const assignEmployeeForTicket = async (companyId) => {
  */
 export const widgetChat = async (req, res) => {
   try {
-    const { companyId, message, conversationId } = req.body;
+    const { companyId, message, conversationId, widgetKey } = req.body;
 
     if (!companyId || !message || message.trim().length === 0) {
       return res.status(400).json({
@@ -49,9 +49,33 @@ export const widgetChat = async (req, res) => {
       });
     }
 
+    let resolvedCompanyId = companyId;
+    let resolvedWidgetKey = widgetKey;
+
+    // Check if the provided companyId is actually a Bot ID
+    const bot = await Bot.findOne({
+      where: {
+        [db.Sequelize.Op.or]: [
+          { id: companyId },
+          { publicKey: widgetKey }
+        ]
+      }
+    });
+
+    if (bot) {
+      resolvedCompanyId = bot.companyId;
+      // Get the corresponding widget configuration for that company
+      const companyWidget = await Widget.findOne({
+        where: { companyId: resolvedCompanyId, isActive: true }
+      });
+      if (companyWidget) {
+        resolvedWidgetKey = companyWidget.widgetKey;
+      }
+    }
+
     // 1. Validate widget exists and is active
     const widget = await Widget.findOne({
-      where: { companyId, isActive: true },
+      where: { companyId: resolvedCompanyId, isActive: true },
     });
 
     if (!widget) {
@@ -63,8 +87,7 @@ export const widgetChat = async (req, res) => {
     }
 
     // 2. Validate widgetKey
-    const { widgetKey } = req.body;
-    if (!widgetKey || widget.widgetKey !== widgetKey) {
+    if (!resolvedWidgetKey || widget.widgetKey !== resolvedWidgetKey) {
       return res.status(401).json({
         success: false,
         message: "Invalid widget validation key.",
@@ -76,7 +99,7 @@ export const widgetChat = async (req, res) => {
     let conversation;
     if (conversationId) {
       conversation = await Conversation.findOne({
-        where: { id: conversationId, companyId },
+        where: { id: conversationId, companyId: resolvedCompanyId },
       });
       if (!conversation) {
         return res.status(404).json({
@@ -87,7 +110,7 @@ export const widgetChat = async (req, res) => {
       }
     } else {
       conversation = await Conversation.create({
-        companyId,
+        companyId: resolvedCompanyId,
         status: "active",
       });
     }
@@ -100,7 +123,7 @@ export const widgetChat = async (req, res) => {
     });
 
     // 5. Run the RAG pipeline
-    const result = await queryRAG(companyId, message);
+    const result = await queryRAG(resolvedCompanyId, message);
 
     let ticketCreated = false;
     if (result.needHumanSupport) {
@@ -110,17 +133,17 @@ export const widgetChat = async (req, res) => {
       });
 
       if (!existingTicket) {
-        const company = await Company.findByPk(companyId);
+        const company = await Company.findByPk(resolvedCompanyId);
         let assignedEmployeeId = null;
         if (company && company.autoAssignmentEnabled) {
-          assignedEmployeeId = await assignEmployeeForTicket(companyId);
+          assignedEmployeeId = await assignEmployeeForTicket(resolvedCompanyId);
           if (!assignedEmployeeId) {
             assignedEmployeeId = company.fallbackEmployeeId || null;
           }
         }
         
         await Ticket.create({
-          companyId,
+          companyId: resolvedCompanyId,
           conversationId: conversation.id,
           subject: "AI Support Handoff - Unresolved Query",
           description: `Customer Query: "${message}"\n\nAI responded: "${result.answer}"`,
@@ -299,7 +322,20 @@ export const getWidgetMessages = async (req, res) => {
       where: { companyId: conversation.companyId, isActive: true },
     });
 
-    if (!widget || widget.widgetKey !== widgetKey) {
+    let isKeyValid = false;
+    if (widget && widget.widgetKey === widgetKey) {
+      isKeyValid = true;
+    } else {
+      // Fallback: Check if the provided key is the bot's public key
+      const bot = await Bot.findOne({
+        where: { companyId: conversation.companyId, publicKey: widgetKey }
+      });
+      if (bot) {
+        isKeyValid = true;
+      }
+    }
+
+    if (!isKeyValid) {
       return res.status(401).json({
         success: false,
         message: "Invalid or inactive widget validation key.",
