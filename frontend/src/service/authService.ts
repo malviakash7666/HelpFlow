@@ -33,6 +33,8 @@ export interface CompanyProfile {
   assignTo: string;
   fallbackEmployeeId: string | null;
   userRole?: string;
+  userName?: string;
+  userId?: string;
   createdAt: string;
   updatedAt: string;
 }
