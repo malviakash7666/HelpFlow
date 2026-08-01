@@ -161,7 +161,7 @@
     .omni-msg.visitor {
       align-self: flex-end;
     }
-    .omni-msg.bot {
+    .omni-msg.bot, .omni-msg.agent {
       align-self: flex-start;
     }
     .omni-msg-bubble {
@@ -181,6 +181,12 @@
       border: 1px solid rgba(99, 102, 241, 0.25);
       border-radius: 14px 14px 14px 0;
     }
+    .omni-msg.agent .omni-msg-bubble {
+      background: rgba(16, 185, 129, 0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 14px 14px 14px 0;
+    }
     .omni-msg-time {
       font-size: 8.5px;
       color: #475569;
@@ -188,7 +194,7 @@
     .omni-msg.visitor .omni-msg-time {
       text-align: right;
     }
-    .omni-msg.bot .omni-msg-time {
+    .omni-msg.bot .omni-msg-time, .omni-msg.agent .omni-msg-time {
       text-align: left;
     }
     .omni-chat-input-area {
@@ -407,6 +413,52 @@
 
   renderMessages();
 
+  // Fetch latest messages from database
+  const fetchMessages = async () => {
+    if (!conversationId) return;
+    try {
+      const response = await fetch(`${apiBaseUrl}/api/widget/conversations/${conversationId}/messages?widgetKey=${widgetKey}`);
+      const result = await response.json();
+      if (result.success && result.data) {
+        messagesList = result.data.map(msg => ({
+          id: msg.id,
+          senderType: msg.senderType,
+          content: msg.content,
+          createdAt: msg.createdAt
+        }));
+        
+        if (messagesList.length === 0) {
+          messagesList.push({
+            id: "welcome",
+            senderType: "bot",
+            content: "Hello! I am your AI Support Assistant. Ask me anything about our services!",
+            createdAt: new Date().toISOString()
+          });
+        }
+        
+        sessionStorage.setItem(historyKey, JSON.stringify(messagesList));
+        renderMessages();
+      }
+    } catch (e) {
+      console.error("[OmniSupport] Error fetching message updates:", e);
+    }
+  };
+
+  let pollInterval = null;
+
+  const startPolling = () => {
+    fetchMessages();
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(fetchMessages, 4000);
+  };
+
+  const stopPolling = () => {
+    if (pollInterval) {
+      clearInterval(pollInterval);
+      pollInterval = null;
+    }
+  };
+
   // Toggle Visibility
   const toggleChat = () => {
     isOpen = !isOpen;
@@ -416,11 +468,13 @@
       document.getElementById("omni-icon-bubble").style.display = "none";
       document.getElementById("omni-icon-close").style.display = "block";
       setTimeout(() => chatMessages.scrollTop = chatMessages.scrollHeight, 100);
+      startPolling();
     } else {
       chatWindow.classList.remove("show");
       chatBtn.classList.remove("open");
       document.getElementById("omni-icon-bubble").style.display = "block";
       document.getElementById("omni-icon-close").style.display = "none";
+      stopPolling();
     }
   };
 
