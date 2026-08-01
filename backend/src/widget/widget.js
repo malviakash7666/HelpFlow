@@ -351,7 +351,13 @@
   `;
   widgetContainer.appendChild(chatBtn);
 
-  document.body.appendChild(widgetContainer);
+  if (document.body) {
+    document.body.appendChild(widgetContainer);
+  } else {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.appendChild(widgetContainer);
+    });
+  }
 
   // 5. Setup Messaging State & Cache
   let isOpen = false;
